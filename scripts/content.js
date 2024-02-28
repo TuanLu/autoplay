@@ -5,11 +5,9 @@ let searchBoxTimmer;
 let autoPlayFlag = true;
 function checkPlayer() {
     maxTimeToTry--;
-    console.log('>> check player', {ok: window?.player?.player})
     if(!window?.player?.player) {
         playerTimmer = setTimeout(checkPlayer, 1000);
         if(maxTimeToTry < 0) {
-            console.log('>> can not find player after max time tried!');
             clearTimeout(playerTimmer);
         }
     } else {
@@ -24,57 +22,7 @@ function autoPlay(player) {
         player.muted(true);
         player.play();
     } catch(error) {
-        console.warn('Can not auto play video!');
     }
-}
-
-function registerEnterEvent() {
-    const iframe = document.getElementById('frame_content');
-    const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-    const searchBoxElem = innerDoc.getElementById('xsearch');
-    const submitBtn = innerDoc.querySelector('input[type=button][value="TÌM"');
-    submitBtn.style.backgroundColor = 'green';
-    searchBoxElem.addEventListener('keyup', function(event) {
-        event.preventDefault();
-        if(event.keyCode === 13 || event.key === 'Enter') {
-            if(searchBoxElem.value && submitBtn) {
-                console.log('doSomething :>> ', {event, submitBtn, val: searchBoxElem.value});
-                submitBtn.click();
-            }
-        }
-    });
-}
-
-function findSearchBox() {
-    const iframe = document.getElementById('frame_content');
-    const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-    maxTimeToTryFindSearchBox--;
-    if(!innerDoc || !innerDoc.getElementById('xsearch')) {
-        searchBoxTimmer = setTimeout(findSearchBox, 3000);
-        if(maxTimeToTryFindSearchBox < 0) {
-            console.log('>> can not find searchbox after max time tried!');
-            clearTimeout(searchBoxTimmer);
-        }
-    } else {
-        clearTimeout(searchBoxTimmer);
-        registerEnterEvent();
-    }
-}
-
-function addInlineIframe({src, top}) {
-    const vIframe = document.createElement('iframe');
-    vIframe.src = src;
-    vIframe.width = 200;
-    vIframe.height = 200;
-    vIframe.style = `position: fixed; top: ${top}px; left: 0; z-index: 10000;`;
-    const script = document.createElement('script');
-    script.textContent = `
-        setTimeout(() => {
-            window?.player?.player?.play();
-        }, 3000)
-    `;
-    document.body.append(vIframe);
-    document.body.append(script);
 }
 
 async function togglePictureInPicture() {
@@ -257,10 +205,6 @@ function createPiPButton() {
 
 function afterDOMLoaded() {
     autoSelectCheckbox();
-    // findSearchBox();
-    // addInlineIframe({ top: 100, src: 'https://eplayvid.net/watch/bc361340e8101df'});
-    // addInlineIframe({ top: 300, src: 'https://eplayvid.net/watch/70ee23e6bdec7c7'});
-    // addInlineIframe({ top: 500, src: 'https://eplayvid.net/watch/8d0b0592a45a826'});
 }
 
 let timmer;
