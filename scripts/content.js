@@ -60,16 +60,16 @@ async function togglePictureInPicture() {
     });
 
     // Move video to the Picture-in-Picture window and make it full page.
-    const video = document.querySelector('#player_html5_api');
+    const video = document.querySelector('#flaAspectRatio');
     pipWindow.document.body.append(video);
     video?.classList?.toggle('fullpage', true);
 
     // Listen for the PiP closing event to move the video back.
     pipWindow.addEventListener('pagehide', (event) => {
-        const videoContainer = document.querySelector('#player');
-        const pipVideo = event.target.querySelector('#player_html5_api');
-        pipVideo?.classList?.toggle('fullpage', false);
-        videoContainer.append(pipVideo);
+        // const videoContainer = document.querySelector('#player');
+        // const pipVideo = event.target.querySelector('#player_html5_api');
+        // pipVideo?.classList?.toggle('fullpage', false);
+        // videoContainer.append(pipVideo);
     });
 }
 
